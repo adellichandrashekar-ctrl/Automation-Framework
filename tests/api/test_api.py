@@ -140,6 +140,4 @@ class TestDeleteUser:
         data = response.json()
         assert data.get("isDeleted") is True
         assert data.get("id") == 1
-        logger.info(f"User 1 is deleted successfully at {data.get("deletedOn")}")
-
-    
+        logger.info(f"User 1 is deleted successfully at {data.get('deletedOn')}")
