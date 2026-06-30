@@ -46,8 +46,8 @@ class TestCreateUser:
         response = api_client.post("/users/add", json=user_data)
         Validators.check_status(response, 201)
         data = response.json()
-        assert data["firstName"].lower() == "chandra", f"Failed to validate first name, instead we got {data["firstName"]}"
-        assert data["lastName"].lower() == "shekar", f"Failed to validate last name, instead we got {data["lastName"]}"
+        assert data["firstName"].lower() == "chandra", f"Failed to validate first name, instead we got {data['firstName']}"
+        assert data["lastName"].lower() == "shekar", f"Failed to validate last name, instead we got {data['lastName']}"
         logger.info(f"Created New User with ID: {data['id']}")
 
     @pytest.mark.parametrize("first_name, last_name, role", [("Alice", "Smith", "admin"), ("Bob", "Johnson", "user"), ("Charlie", "Brown", "moderator"),])
