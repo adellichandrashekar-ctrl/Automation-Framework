@@ -4,7 +4,7 @@ from pages.base_page import BasePage
 class LoginPage(BasePage):
     USERNAME_INPUT = (By.ID, "user-name")
     PASSWORD_INPUT = (By.ID, "password")
-    LOGIN_BUTTON = (By.ID, "login-button")
+    LOGIN_BUTTON = (By.CSS_SELECTOR, "input[type='submit']")
     ERROR_MESSAGE = (By.XPATH, "//h3[@data-test='error']")
 
     def login(self, username, password):
