@@ -15,7 +15,7 @@ class TestSauceDemoLogin:
         logger.info("Initializing Page Object")
         login_page = LoginPage(driver)
         inventory_page = InventoryPage(driver)
-        time.sleep(3) # for time being veiwing what is happening (not a standard thing to use in automation)
+        time.sleep(3)  # for time being veiwing what is happening (not a standard thing to use in automation)
 
         logger.info("Attempting login as standard_user")
         login_page.login("standard_user", "secret_sauce")
