@@ -30,5 +30,6 @@ class Validators:
         assert actual == expected, f"Expected '{key}'={expected}, got {actual}"
         logger.info(f"{key} = {expected}")
 
-def random_user_data(name="Test User", job="QA Engineer"):
-    return {"name": name, "job": job}
+def generate_user_payload(first_name="Chandra", last_name="Shekar", role="QA Engineer"):
+    """Generate a JSON payload for creating user in DummyJson"""
+    return {"firstName": first_name, "lastName": last_name, "role": role}

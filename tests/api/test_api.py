@@ -1,7 +1,7 @@
 import pytest
 import logging
 
-from utils.helpers import Validators
+from utils.helpers import Validators, generate_user_payload
 
 logger = logging.getLogger(__name__)
 
@@ -38,11 +38,7 @@ class TestCreateUser:
 
     def test_create_single_user(self, api_client):
         """create a new single user and validate the response"""
-        user_data = {
-            "firstName": "Chandra",
-            "lastName": "Shekar",
-            "age": 28,
-        }
+        user_data = generate_user_payload(first_name="Chandra", last_name="Shekar")
         response = api_client.post("/users/add", json=user_data)
         Validators.check_status(response, 201)
         data = response.json()
@@ -53,7 +49,7 @@ class TestCreateUser:
     @pytest.mark.parametrize("first_name, last_name, role", [("Alice", "Smith", "admin"), ("Bob", "Johnson", "user"), ("Charlie", "Brown", "moderator"),])
     def test_create_multiple_users(self, api_client, first_name, last_name, role):
         """Data driven: create multiple users with different roles"""
-        user_data = {"firstName": first_name, "lastName": last_name, "role": role}
+        user_data = generate_user_payload(first_name=first_name, last_name=last_name, role=role)
         response = api_client.post("/users/add", json=user_data)
         Validators.check_status(response, 201)
         data = response.json()
