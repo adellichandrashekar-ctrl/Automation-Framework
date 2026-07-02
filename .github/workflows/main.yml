@@ -32,6 +32,9 @@ jobs:
       - name: Run UI Tests
         run: pytest -m ui -v --html=reports/ui_report.html
 
+      - name: Run DB Tests
+        run: pytest -m db -v --html=reports/db_report.html
+
       - name: Upload Test Report
         uses: actions/upload-artifact@v4
         with:
