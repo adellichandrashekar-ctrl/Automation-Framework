@@ -1,16 +1,12 @@
 pipeline{
-    agent {
-        node {
-            label '' // Empty label tells jenkins to run on ANY avilable node
-        }
-    }
+    agent any
 
     triggers {
         cron('H 0 * * *')
     }
 
     environment {
-        PYTHON = '"C:\\Users\\AdelliChandrashekar\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe"'
+        PYTHON = 'C:\\Python310\\python.exe'
     }
     stages {
         stage('Checkout & Verify') {
@@ -24,8 +20,7 @@ pipeline{
                 echo "Setting up Python Virtual Environment..."
                 bat """
                     %PYTHON% -m venv venv
-                    call venv\\Scripts\\activate.bat
-                    pip install -r requirements.txt
+                    venv\\Scripts\\python.exe -m pip install -r requirements.txt
                 """
             }
 
@@ -34,8 +29,7 @@ pipeline{
             steps {
                 echo "Running API Test Suite..."
                 bat """
-                    call venv\\Scripts\\activate.bat
-                    pytest -m api -v --alluredir=allure-results
+                    venv\\Scripts\\python.exe -m pytest -m api -v --alluredir=allure-results
                 """
             }
         }
@@ -43,8 +37,7 @@ pipeline{
             steps {
                 echo "Running UI Test Suite..."
                 bat """
-                    call venv\\Scripts\\activate.bat
-                    pytest -m ui -v --alluredir=allure-results
+                    venv\\Scripts\\python.exe -m pytest -m ui -v --alluredir=allure-results
                 """
             }
         }
@@ -52,8 +45,7 @@ pipeline{
             steps {
                 echo "Running DB Test Suite..."
                 bat """
-                    call venv\\Scripts\\activate.bat
-                    pytest -m db -v --alluredir=allure-results
+                    venv\\Scripts\\python.exe -m pytest -m db -v --alluredir=allure-results
                 """
             }
         }
@@ -63,7 +55,7 @@ pipeline{
             echo "Pipeline finished! Generating Allure Report..."
             allure([
                 includeProperties: false,
-                jdk: '',
+                jdk: 'MyJDK',
                 properties: [],
                 reportBuildPolicy: 'ALWAYS',
                 results: [[path: 'allure-results']]
@@ -73,10 +65,10 @@ pipeline{
             echo "All TESTS PASSED! Ready for deployment"
         }
         failure {
-            echo "TESTS FAILED! Sending alert to development team"
-            mail to: 'adelli_chandrashekar@epam.com',
-                 subject: "Pipeline Failed: ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
-                 body: "The nightly automation suite has failed. Please check the Allure Report!"
+            echo "TESTS FAILED! Please Visit the Jenkins Pipeline Latest Build For More Information"
+            // mail to: 'adelli_chandrashekar@epam.com',
+            //      subject: "Pipeline Failed: ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
+            //      body: "The nightly automation suite has failed. Please check the Allure Report!"
         }
     }
 }
