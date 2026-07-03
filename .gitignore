@@ -12,3 +12,12 @@ __pycache__/
 reports/
 logs/
 *.log
+
+# OS generated files
+.DB_Store
+Thumbs.db
+
+# Allure Reporting
+allure-results/
+allure-cli/
+allure.zip

@@ -68,3 +68,6 @@ class APIClient:
         """Close the session"""
         self.session.close()
         logger.info("APIClient session is closed")
+
+
+# instead of base == clients

@@ -7,7 +7,7 @@ class Config:
     Loads settings for environments.json
     """
     def __init__(self, env=None):
-        self.env = env or os.environ.get("ENV", "dev")
+        self.env = env or "dev"
 
         config_file = os.path.join(os.path.dirname(__file__), "environments.json")
 

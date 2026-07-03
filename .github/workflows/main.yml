@@ -27,16 +27,17 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run API Tests
-        run: pytest -m api -v --html=reports/api_report.html
+        run: pytest -m api -v --alluredir=allure-results
 
       - name: Run UI Tests
-        run: pytest -m ui -v --html=reports/ui_report.html
+        run: pytest -m ui -v --alluredir=allure-results
 
       - name: Run DB Tests
-        run: pytest -m db -v --html=reports/db_report.html
+        run: pytest -m db -v --alluredir=allure-results
 
-      - name: Upload Test Report
+      - name: Upload Allure Results
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-            name: automation-reports
-            path: reports/*.html
+            name: allure-results
+            path: allure-results

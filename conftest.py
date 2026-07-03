@@ -10,9 +10,27 @@ from webdriver_manager.chrome import ChromeDriverManager
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from config.config import Config
-from base.api_client import APIClient
+from clients.api_client import APIClient
 
 logger = logging.getLogger(__name__)
+
+# create a hook and pytest_adoption # instead envronmn
+
+# def pytest_addoption(parser):
+#     parser.addoption(
+#     "--env", action="store", default="type1", help="my option: type1 or type2"
+#     )
+
+# create a fixture and return the env instead of OS
+
+# @pytest.fixture
+# def env(request):
+# return request.config.getoption("--env")
+
+# custom hook (CLI)
+def pytest_addoption(parser):
+    """its built-in hook, but allow us to add our custom Command line arguments when running tests"""
+    parser.addoption("--env", action="store", default="dev", help="Environment to run tests against: dev or staging")
 
 # fixture 0
 @pytest.fixture(scope="function")
@@ -38,8 +56,10 @@ def driver(config):
 
 # fixture 1
 @pytest.fixture(scope="session")
-def config():
-    return Config()
+def config(request):
+    """session-scoped: one config object for the whole test run"""
+    env_name = request.config.getoption("--env")
+    return Config(env=env_name)
 
 # fixture 2
 @pytest.fixture(scope="session")
