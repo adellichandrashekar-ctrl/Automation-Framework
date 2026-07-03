@@ -6,7 +6,7 @@ pipeline{
     }
 
     environment {
-        PYTHON = 'C:\\Python310\\python.exe'
+        PYTHON = 'python'
     }
     stages {
         stage('Checkout & Verify') {
