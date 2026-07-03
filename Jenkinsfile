@@ -23,7 +23,7 @@ pipeline{
             steps {
                 echo "Setting up Python Virtual Environment..."
                 bat """
-                    $(PYTHON) -m venv venv
+                    %PYTHON% -m venv venv
                     call venv\\Scripts\\activate.bat
                     pip install -r requirements.txt
                 """
