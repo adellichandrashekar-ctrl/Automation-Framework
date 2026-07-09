@@ -14,22 +14,9 @@ from clients.api_client import APIClient
 
 logger = logging.getLogger(__name__)
 
-# create a hook and pytest_adoption # instead envronmn
-
-# def pytest_addoption(parser):
-#     parser.addoption(
-#     "--env", action="store", default="type1", help="my option: type1 or type2"
-#     )
-
-# create a fixture and return the env instead of OS
-
-# @pytest.fixture
-# def env(request):
-# return request.config.getoption("--env")
-
 # custom hook (CLI)
 def pytest_addoption(parser):
-    """its built-in hook, but allow us to add our custom Command line arguments when running tests"""
+    """allow us to add our custom Command line arguments when running tests"""
     parser.addoption("--env", action="store", default="dev", help="Environment to run tests against: dev or staging")
 
 # fixture 0
@@ -118,27 +105,4 @@ def pytest_terminal_summary(terminalreporter, exitstatus, config):
     logger.info(f" Total: {passed + failed + skipped}")
     logger.info(f"\n{'='*50}")
 
-# @pytest.fixture(autouse=True)
-# def setup_test_logging(request):
-#     test_name = request.node.name
-#     # create a logs folder if it doesn't exist
-#     os.makedirs("logs", exist_ok=True)
-
-#     # create dynamic along with dat and time
-#     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-#     log_file = f"logs/{test_name}_{timestamp}.log"
-
-#     logger = logging.getLogger()
-#     logger.setLevel(logging.INFO)
-#     file_handler = logging.FileHandler(log_file)
-#     file_handler.setLevel(logging.INFO)
-#     formatter = logging.Formatter("%(asctime)s | %(levelname)-8s | %(name)-25s | %(message)s")
-#     file_handler.setFormatter(formatter)
-
-#     logger.addHandler(file_handler)
-
-#     yield
-
-#     logger.removeHandler(file_handler)
-#     file_handler.close()
 

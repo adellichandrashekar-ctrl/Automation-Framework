@@ -5,7 +5,7 @@ logger = logging.getLogger(__name__)
 
 class APIClient:
     """
-    Simple HTTPE client rhat wraps requests.session
+    Simple HTTP client that wraps requests.session
     """
     def __init__(self, base_url, time_out=10):
         self.base_url = base_url
@@ -68,6 +68,3 @@ class APIClient:
         """Close the session"""
         self.session.close()
         logger.info("APIClient session is closed")
-
-
-# instead of base == clients
