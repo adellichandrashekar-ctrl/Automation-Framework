@@ -54,7 +54,7 @@ def config(request):
 @pytest.fixture(scope="session")
 def api_client(config):
     """Session scoped that authenticate once and shares the session across all tests"""
-    client = APIClient(base_url=config.base_url, time_out=config.timeout)
+    client = APIClient(base_url=config.base_url, timeout=config.timeout)
     login_data = {
         "username": config.auth_username,
         "password": config.auth_password
