@@ -151,7 +151,7 @@ class TestUserLifeCycle:
         create_resp = api_client.post("/users/add", json=user_data)
         Validators.check_status(create_resp, 201)
         created_id = create_resp.json()["id"]
-        assert created_id.json()["firstName"] == "LifeCycle"
+        assert create_resp.json()["firstName"] == "LifeCycle"
         logger.info(f"Created user with ID: {created_id}")
 
         # READ - fetch (GET call)
