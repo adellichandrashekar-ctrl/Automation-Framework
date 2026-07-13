@@ -7,6 +7,7 @@ pipeline{
 
     environment {
         PYTHON = 'C:\\Program Files\\Python313\\python.exe'
+        GITHUB_TOKEN = credentials('GITHUB_TOKEN')
     }
     stages {
         stage('Checkout & Verify') {
