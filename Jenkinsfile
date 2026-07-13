@@ -34,6 +34,11 @@ pipeline{
                 """
             }
         }
+        stage('Check env') {
+            steps {
+                bat 'if defined GITHUB_TOKEN (echo GITHUB_TOKEN is set) else (echo GITHUB_TOKEN is NOT set)'
+            }
+        }
         stage('Run OAuth 2.0 API Tests') {
             steps {
                 echo "Running OAuth 2.0 API Test Suite..."
@@ -58,11 +63,6 @@ pipeline{
                 """
             }
         }
-        stage('Check env') {
-            steps {
-                bat 'if defined GITHUB_TOKEN (echo GITHUB_TOKEN is set) else (echo GITHUB_TOKEN is NOT set)'
-        }
-    }
     }
     post {
         always {
