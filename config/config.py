@@ -1,8 +1,10 @@
 import os
 import json
+from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()  # loads the environment variables from .env
+BASE_DIR = Path(__file__).resolve().parents[1]
+load_dotenv(BASE_DIR / ".env", override=False)
 
 
 class Config:
