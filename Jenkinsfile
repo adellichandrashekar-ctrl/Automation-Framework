@@ -34,6 +34,13 @@ pipeline{
                 """
             }
         }
+        stage('Run OAuth 2.0 API Tests') {
+            steps {
+                echo "Running OAuth 2.0 API Test Suite..."
+                bat """
+                    venv\\Scripts\\python.exe -m pytest -m oauth -v --alluredir=allure-results
+                """
+            }
         stage('Run UI Tests') {
             steps {
                 echo "Running UI Test Suite..."
