@@ -10,7 +10,9 @@ from webdriver_manager.chrome import ChromeDriverManager
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from config.config import Config
-from clients.api_client import APIClient
+from clients.dummyjson_client import APIClient
+from clients.github_client import GitHubClient
+
 
 logger = logging.getLogger(__name__)
 
@@ -70,6 +72,18 @@ def api_client(config):
     yield client
 
     client.close()
+
+
+@pytest.fixture(scope="session")
+def github_client(config):
+    """Session scode OAuth client, Reads the token and URL from environments.json via config fixture"""
+    client = GitHubClient(base_url=config.get("github_api_url"),
+                          token=config.get("github_token"))
+    
+    yield client
+
+    client.close()
+
 
 @pytest.fixture(autouse=True)
 def test_logger(request):

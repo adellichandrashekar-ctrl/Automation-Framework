@@ -137,3 +137,44 @@ class TestDeleteUser:
         assert data.get("isDeleted") is True
         assert data.get("id") == 1
         logger.info(f"User 1 is deleted successfully at {data.get('deletedOn')}")
+
+# Full Life Cylce - Single E2E CURD Flow
+@pytest.mark.api
+@pytest.mark.smoke
+class TestUserLifeCycle:
+    """Single End to End FLow"""
+
+    def test_full_user_lifecycle(self, api_client):
+        """Create user > fetch user > update user > delete user"""
+        # CREATE - make a new user (POST call)
+        user_data = generate_user_payload(first_name="LifeCycle", last_name="User")
+        create_resp = api_client.post("/users/add", json=user_data)
+        Validators.check_status(create_resp, 201)
+        created_id = create_resp.json()["id"]
+        assert created_id.json()["firstName"] == "LifeCycle"
+        logger.info(f"Created user with ID: {created_id}")
+
+        # READ - fetch (GET call)
+        get_details = api_client.get("/users/1")
+        Validators.check_status(get_details, 200)
+        Validators.check_key_exists(get_details, "firstName")
+        logger.info(f"FETCHED User: {get_details.json().get('firstName')}")
+
+        # UPDATE - Change the user's name (PUT call)
+        update_resp = api_client.put("/users/1", json={"firstName": "Updated"})
+        Validators.check_status(update_resp, 200)
+        assert update_resp.json()["firstName"].lower() == "updated"
+        logger.info("Updated user's name to 'Updated'")
+
+        # Partial update - change only the role (PATCH call)
+        patch_resp = api_client.patch("/users/1", json={"role": "Superadmin"})
+        Validators.check_status(patch_resp, 200)
+        assert patch_resp.json()["role"].lower() == "superadmin"
+        logger.info("PATCHED user role to 'Superadmin'")
+
+        # DELETE - remove the user (DELETE call)
+        delete_resp = api_client.delete("/users/1")
+        Validators.check_status(delete_resp, 200)
+        assert delete_resp.json().get("isDeleted") is True
+        logger.info("DELETED user -- Full LifeCycle Complete.")
+

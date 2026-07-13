@@ -1,5 +1,8 @@
 import os
 import json
+from dotenv import load_dotenv
+
+load_dotenv()  # loads the environment variables from .env
 
 
 class Config:
@@ -38,6 +41,10 @@ class Config:
     
     def get(self, key, default=None):
         """Get any setting by key name"""
+        env_val = os.environ.get(key) or os.environ.get(key.upper())
+        if env_val:
+            return env_val
+
         return self._settings.get(key, default)
     
     def __repr__(self):

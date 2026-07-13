@@ -49,4 +49,3 @@ class TestDatabaseOperations:
         logger.info(f"Total users in DB: {len(results)}")
         names = [row[1] for row in results]
         assert "Chandra Shekar" in names, "Chandra Shekar Should be in the DB"
-

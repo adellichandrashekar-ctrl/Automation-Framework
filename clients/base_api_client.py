@@ -3,20 +3,15 @@ import requests
 
 logger = logging.getLogger(__name__)
 
-class APIClient:
-    """
-    Simple HTTP client that wraps requests.session
-    """
-    def __init__(self, base_url, time_out=10):
-        self.base_url = base_url
-        self.time_out = time_out
-        self.session = requests.Session()
 
-        self.session.headers.update({
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-        })
-        logger.info(f"APIClient Created for: {self.base_url}")
+class BaseAPIClient:
+    """Parent class for all API clients"""
+
+    def __init__(self, base_url, timeout=10):
+        self.base_url = base_url
+        self.time_out = timeout
+        self.session = requests.Session()
+        logger.info(f"BaseAPIClient Created for: {self.base_url}")
 
     def get(self, endpoint, **kwargs):
         """Send a GET request"""
@@ -58,13 +53,9 @@ class APIClient:
         logger.info(f"Status Code: {response.status_code}")
         return response
     
-    def set_auth_token(self, token):
-        """Store auth token in session header
-          will automatically include this token for every request"""
-        self.session.headers["Authorization"] = f"Bearer {token}"
-        logger.info("Auth token set in session headers")
-
     def close(self):
         """Close the session"""
         self.session.close()
         logger.info("APIClient session is closed")
+
+        
