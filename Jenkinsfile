@@ -41,6 +41,7 @@ pipeline{
                     venv\\Scripts\\python.exe -m pytest -m oauth -v --alluredir=allure-results
                 """
             }
+        }
         stage('Run UI Tests') {
             steps {
                 echo "Running UI Test Suite..."
